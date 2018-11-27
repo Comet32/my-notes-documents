@@ -246,7 +246,7 @@ Shift-Cmd-K
 
 保证当前打开的是一个 js 文件，打开命令面板，搜 snippet 。有两条可以匹配上，一条是插入自带的一些 snippet ，另一条就是 Open User Snippets ，回车选中，可以来创建自己的 snippet 。
 
-添加好之后，回到 js 文件中，就可以敲关键词，然后 tab 进行补齐了。欢迎到 github.com/happypeter/dotVScode 中拷贝我的那些 snippet 。
+添加好之后，回到 js 文件中，就可以敲关键词，然后 tab 进行补齐了。欢迎到 	github.com/happypeter/dotVScode 中拷贝我的那些 snippet 。
 
 ---
 

@@ -1,4 +1,4 @@
-# 课程4：向仓库仓库中添加 commit
+# 课程4：向仓库中添加 commit
 
 > 没有 commit 的仓库就什么也不是。在这节课，你将学习如何提交 commit，编写具有描述性的提交说明，以及验证保存到仓库中的更改。
 
@@ -201,23 +201,19 @@ $ git add css/app.css js/app.js
 
 句点指代当前目录，可以用来表示所有文件和目录（包括所有嵌套文件和目录！）。
 
+```shell
+​```bash
+$ git add css/app.css js/app.js
+# 等同于
+$ git add .
 ```
-      ```bash
-      $ git add css/app.css js/app.js
-      # 等同于
-      $ git add .
-```
-```
-
 唯一要注意的是，你可能会不小心包含多余的文件。现在，我们希望同时暂存 `css/app.css` 和 `js/app.js`，因此运行该命令没问题。现在假设你向 `img` 目录添加了一些图片，但是暂时不想暂存这些图片。运行 `git add .` 将暂存这些图片。如果你暂存了不想暂存的文件，`git status` 会告诉你撤消暂存需要用到的命令。
 
 ### 暂存剩余的文件
 
 我们使用以下简写命令暂存剩余的文件：
 
-```
-$ git add .
-```
+`$ git add .`
 
 然后运行 `git status`：
 
@@ -227,7 +223,7 @@ $ git add .
 
 `git add` 命令用于将文件从工作目录移到暂存区。
 
-```
+```shell
 $ git add <file1> <file2> … <fileN>
 ```
 
@@ -236,11 +232,7 @@ $ git add <file1> <file2> … <fileN>
 - **可接受多个文件名（用空格分隔）**
 - 此外，可以使用句点 `.` 来代替文件列表，告诉 git 添加当前目录至暂存区（以及所有嵌套文件）
 
-
-
 ## 3. git commit
-
-
 
 ### 快速检测
 
@@ -265,7 +257,7 @@ Task List
 
 要在 git 中提交 commit，你需要使用 `git commit` 命令，但是先别运行这条命令。运行这条命令将会打开你在第一节课配置的代码编辑器。如果你尚未运行以下命令：
 
-```
+```shell
 $ git config --global core.editor <your-editor's-config-went-here>
 ```
 
@@ -275,9 +267,7 @@ $ git config --global core.editor <your-editor's-config-went-here>
 
 如果你配置了编辑器，那么可以使用 `git commit` 命令提交 commit：
 
-```
 $ git commit
-```
 
 注意，你的编辑器应该会打开并且会出现以下界面：
 
@@ -294,26 +284,16 @@ $ git commit
 回到代码编辑器。我的编辑器显示了以下内容：
 
 ```
-Please enter the commit message for your changes. Lines starting
-
-with '#' will be ignored, and an empty message aborts the commit.
-
-On branch master
-
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
 #
-
-Initial commit
-
+#Initial commit
 #
-
-Changes to be committed:
-
-new file:   css/app.css
-
-new file:   index.html
-
-new file:   js/app.js
-
+# Changes to be committed:
+#    new file:   css/app.css
+#    new file:   index.html
+#    new file:   js/app.js
 #
 ```
 
@@ -355,7 +335,7 @@ new file:   js/app.js
 
 我们已经短暂休息了一下，现在提交第二个 commit！将以下内容添加到 `index.html` 中的 `body` 标记中：
 
-​```html
+```html
 <header>
    <h1>Expedition</h1>
 </header>
@@ -682,7 +662,7 @@ samples/*.jpg
 - beers
 - boars
 
-提交
+
 
 ### gitignore 小结
 

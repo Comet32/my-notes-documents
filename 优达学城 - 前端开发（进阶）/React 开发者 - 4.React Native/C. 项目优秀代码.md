@@ -52,7 +52,7 @@ render(){
 
 
 
-## 使用 redux 管理数据时，如何将数据存在到 `LocalStorage` 
+## 使用 redux 管理数据时，如何将数据存到 `LocalStorage` 
 
 ```jsx
 // store.js

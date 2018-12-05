@@ -1,4 +1,4 @@
-# Z.总结与提炼
+Z.总结与提炼
 
 > 我将把整套课程中我认为值得提炼的知识归纳到这个文档中，并会总结和说明一些我的理解。
 
@@ -32,7 +32,7 @@
 
 调用 `setState()` 后 React 所做的第一件事是将传递给 `setState()` 的对象合并到组件的当前状态。这会启动一个叫做[调节](https://facebook.github.io/react/docs/reconciliation.html) 的过程。调节的最终目的是**以最有效的方式更新**基于这种新状态的用户界面。为此，React 将构建一个新的 React 元素树（你可以将其视为 UI 的对象表现形式）。一旦有了这个新树，React 就会使用 "diff" 命令将它与之前的元素树进行比较，以便弄清 UI 如何响应新的状态而改变。通过这样做，React 将会知道发生的具体变化，并且通过了解发生的具体变化，它将能够**仅在绝对必要的情况下进行更新，以最大限度地减少 UI 的占用空间**。
 
-创建 DOM 的对象表现形式的这个过程是 "Virtual DOM" 背后的整体思想。但是，如果我们不想以 DOM 为目标进行渲染，而是将另一个平台作为渲染目标 -- 比如说 iOS 或 Android。理论上来说，DOM 只是一个实现细节。除了这个名字本身（在我看来，它更像是一种营销手段）外，没有什么可以将虚拟 DOM 概念与实际 DOM 相结合。这正是 React Native 背后的思想。**React Native 不是渲染到 web 的 DOM，而是渲染原生 iOS 或 Android 视图**。这是我们可以只使用 React Native 来构建原生 iOS 和 Android 应用。
+创建 DOM 的对象表现形式的这个过程是 "Virtual DOM" 背后的整体思想。但是，如果我们不想以 DOM 为目标进行渲染，而是将另一个平台作为渲染目标 -- 比如说 iOS 或 Android。理论上来说，DOM 只是一个实现细节。除了这个名字本身（在我看来，它更像是一种营销手段）外，没有什么可以将虚拟 DOM 概念与实际 DOM 相结合。这正是 React Native 背后的思想。**React Native 不是渲染到 web 的 DOM，而是渲染原生 iOS 或 Android 视图**。这是我们可以只使用 React Native 来构建原生 iOS 和 Android 应用的原因。
 
 #### 进一步研究：
 
@@ -84,7 +84,7 @@ yarn global add create-react-native-app
 
 - Expo 的宗旨是当你构建 React Native 应用时，你不需要处理原生代码，无论是 Swift Objective-C 还是 java。
 - 每当我们需要处理原生 API 时，例如相机或地理位置，我们不用使用 Xcode 或 Android studio，这两个工具实在令人头疼，相反，我们可以使用 Expo 的 JavaScript API 实现相同的结果。
-- 实际上 Create React Native 应用就是由 Expo 团队开发的，已成为使用 React Native 构建应用的官方方式。
+- 实际上 Create React N!ative 应用就是由 Expo 团队开发的，已成为使用 React Native 构建应用的官方方式。
 - Expo 是一项服务，它能使涉及 React Native 的一切都变得非常容易。**Expo 背后的思路是省去 Android Studio 或 Xcode 的使用**。更重要的是：它甚至允许我们使用 Windows（或甚至 Linux）面向 iOS 进行开发！
 
 - 在此课程中，我们将大量依赖 Expo。首先: 你需要_安装_ Expo。请前往应用商店，安装适合你的设备的 Expo 移动应用：
@@ -257,7 +257,7 @@ React Native 提供几个在应用的表单中使用的基本组件：
   - 文本框输入组件，带有 value 属性与 onChange 属性，onChange 回调中的第一个参数为改变后的 value。
 - `KeyboardAvoidingView`
   - `keyboardAvoidingView` 组件，我们可以将这里的 `View`（最外层的 View），替换为 `keyboardAvoidingView`，并为其提供 `behavior` 属性，设为 `padding`，指明该视图如何不被键盘遮盖，我们将在其周围添加一些内边距。
-  - `KeyboardAvoidingView` 解决了视图会阻挡虚拟键盘的问题。
+  - `KeyboardAvoidingView` 解决了视图会阻挡虚拟键盘的问题
 - `Slider`
 - `Switch`
   - 切换按钮组件，带有 value 属性与 onValueChange 属性。
@@ -353,3 +353,489 @@ yarn add redux react-redux
 
 
 
+## 3.样式和布局
+
+### 3.1 CSS in JS
+
+在 React 中，组件有两个主要目标： 
+
+- State 
+- Presentation
+
+React 组件具有**本地状态**，JSX 负责**呈现标记**部分，但对我来说 Presentation 不仅仅是标记，它是**标记**和**样式**的结合体，因此我建议将**样式从样式表中移到组件级别**，听起来有点疯狂，但实际上在 React 社区，这是很常见的。实际上已经是 React Native 设计组件样式的主要方式。
+
+我们是让 CSS 位于组件中吗？如果你不习惯于这一概念，可能会觉得很奇怪，但在 React Native 中，要设置应用样式，我们将直接使用 JavaScript 而不是之前习惯使用的 CSS。
+
+- React Native 中的所有核心组件都可以接受一个名为 `style` 的属性。我们可以利用此属性的一种方式是使用内联 JavaScript 对象为组件提供样式：
+
+  ```jsx
+  function Avatar ({ src }) {
+    return (
+      <View>
+        <Image
+          style={{borderRadius: 5, margin: 10, width: 48, height: 48}}
+          source={{uri: 'https://tylermcginnis.com/tylermcginnis_glasses-300.png'}}
+        />
+      </View>
+    );
+  }
+  ```
+
+- 使你的代码保持 DRY（Don't Repeat Yourself） 和可重用的一种方式是将对象存储在一个变量中：
+
+  ```jsx
+  const styles = {
+    image: {
+      borderRadius: 5,
+      margin: 10,
+      width: 48,
+      height: 48
+    }
+  };
+  
+  function Avatar ({ src }) {
+    return (
+      <View>
+        <Image
+          style={styles.image}
+          source={{uri: 'https://tylermcginnis.com/tylermcginnis_glasses-300.png'}}
+        />
+      </View>
+    );
+  }
+  ```
+
+- 在 React Native 中，通过 `StyleSheet` API 更进一步的创建 styles：
+
+  ```jsx
+  import React from 'react';
+  import { StyleSheet, Text, View } from 'react-native';
+  
+  export default class TextExample extends React.Component {
+    render() {
+      return (
+        <View>
+          <Text style={styles.greenLarge}>This is large green text!</Text>
+          <Text style={styles.red}>This is smaller red text!</Text>
+        </View>
+      );
+    }
+  }
+  
+  const styles = StyleSheet.create({
+    greenLarge: {
+      color: 'green',
+      fontWeight: 'bold',
+      fontSize: 40
+    },
+    red: {
+      color: 'red',
+      padding: 30
+    },
+  });
+  ```
+
+  - 使用 `StyleSheet` 可以提高我们的代码质量和性能。
+
+  - 提高代码质量：
+
+    - 通过将样式从 render 函数中移除，会使代码变得更容易理解。
+
+    - 命名样式是向 render 函数中的低级组件添加意义的好方式。
+
+  - 提高性能：
+
+    - 从样式对象中创建样式表使我们能够按 ID 进行渲染，而不用每次创建新的样式对象。
+
+- 如果要对组件实现多个样式，`style` 属性可以接受样式作为数组：
+
+  ```jsx
+  return (
+        <View style={styles.container}>
+          <View style={[styles.box, {flex: 1}]}/>
+          <View style={[styles.box, {flex: 2}]}/>
+          <View style={[styles.box, {flex: 1}]}/>
+        </View>
+      )
+  ```
+
+- CSS-in-JS 库：
+
+  - React 中的样式正在经历一个复兴时期，就像 Flux 几年前一样（最终我们获得了 Redux）。许多不同的样式库不断涌现出来，每个都有利有弊。其中最受欢迎的两个是 [Glamorous](https://github.com/robinpowered/glamorous-native) 和 [Styled Components](https://github.com/styled-components/styled-components)。这两个库的整体思想是，样式是组件的重点所在，因此应该与组件本身结合。我们稍后看一下在 React Native 中使用样式化组件。
+  - 使用 CSS in JS 使我们可以访问应用状态或组件中的属性。
+
+#### 总结
+
+CSS in JS 是一个独特的样式实现方式。其主要思想是，样式由 JavaScript 对象而非传统的 CSS 来处理。样式可以直接写入行内或通过对象变量访问，但 React Native 提供一个 `StyleSheet` API，它提供了实现组件样式的高性能和组合方式。
+
+#### 进一步学习
+
+- [我如何安全地使用 CSS-in-JS？](https://reactarmory.com/answers/how-can-i-use-css-in-js-securely)
+
+
+
+### 3.2 Flexbox 指南
+
+- 块模型和浮动，根据 MDN 的定义，悬浮 CSS 属性规定元素应该放置在容器的左侧或者右侧，并且文本和内前元素应用包裹在周围：
+- 根据 MDN 的定义，flexbox 是一种旨在满足不同屏幕尺寸和不同显示屏幕设备的布局模式，对于很多应用来说 flexible box 模型比块级模型更容易实现，因为它不使用浮动。
+- Flexbox 本质上是**旧版块级模型布局的替代形式**，并且很多人都觉得它**性能提高了很多**。很自然地 react native 选择通过 flexbox 来实现布局，而不是原来的块级模型。
+- 官方 flexbox 规范与 react native 对 flexbox 的实现之间存在一些**细微差别**，我们也会讲解到。
+
+#### Flexbox 入门
+
+- 每当学习一门新技术，我都要先问一个问题“**这种技术为何存在**？” 对于 flexbox，这个问题的答案可能是使用 CSS 创建一个**多用途的布局**相当麻烦。而 flexbox 的目的就是创建一个更有效的方法来"**布置、对齐和分配容器中项目之间的空间，即使它们的大小位置是未知 和/或 是动态的**"。简而言之，flexbox 的主要用途在于**创建动态布局**。
+
+#### Flexbox 轴
+
+Flexbox 的最重要的概念是它由不同的[轴](https://www.quora.com/What-is-the-plural-of-axis)组成，包括**主轴**和**交叉轴**。 
+
+- 在 React Native 中，默认情况下，**主轴**为垂直的，而**交叉轴**为水平的。后面的所有东西都将构建在**主轴**和**交叉轴**之上。
+- 当说"…沿主轴对齐所有子元素"时，是说默认情况下，**父元素的所有子元素将从上到下垂直布置**。如果说"…沿交叉轴对其子元素"时，是说默认情况下，**所有的子元素将从左到右水平布置**。
+
+#### Flex 方向
+
+你会注意到在说到**主轴**和**交叉轴**时，我特别提到了"默认行为"。这是因为你实际上可以更改哪个轴作为主轴，哪个作为交叉轴。这就涉及我们的第一个 flexbox 属性`flex-direction`（或 React Native 中的`flexDirection`）。
+
+`flex-direction` 有两个值:
+
+- `row`（行）
+- `column`（列）
+
+默认情况下，React Native 中的每个元素都有 `flexDirection: column` 声明。当一个元素的 `flex-direction` 为`colum`时，它的_主*轴为垂直的，而它的*交叉_轴为水平的，就像我们在上图中看到的那样。但是，如果你给一个元素 `flexDirection: row` 声明，轴就颠倒过来了。主轴变为水平的，而交叉轴变为垂直的。再次说明，**这非常重要，因为你的整个布局都取决于这两个轴。**
+
+#### 对齐内容（主轴）
+
+为了指定子元素**如何沿主轴对齐**，你要使用 `justifyContent` 属性。`justifyContent` 具有五个你可以用来改变子元素的对齐方式的不同值。
+
+- `flex-start`
+  - `justifyContent: flex-start` 会使 flex 项目出现在**主轴的起点**。
+- `center`
+  - `justifyContent: center` 使 flex 项出现在**主轴的中心**。
+- `flex-end`
+  - `justifyContent: flex-end` 使 flex 项出现在**主轴的终点**。
+- `space-around`
+  - `justifyContent: space-around` 沿主轴**均匀地**排列每个子元素。 （子元素与两端也会有空隙）
+- `space-between`
+  - `justifyContent: space-between` 会使 flex 项出现在**主轴的两端**，**子元素之间有间隔**。
+
+#### **对齐项目（交叉轴）**
+
+为了指定子元素如何沿交叉轴对齐，你可以使用 `align-items` 属性。此属性具有四个不同的值可以用来更改子元素沿交叉轴的对齐方式：
+
+- `flex-start`
+  - `alignItems: flex-start` 会朝交叉轴的**起点对齐**每个子元素。
+- `center`
+  - `alignItems: center` 会朝交叉轴的**中间对齐**每个子元素。 
+- `flex-end`
+  - `alignItems: 'flex-end'` 会朝交叉轴的**终点对齐**每个子元素。 
+- `stretch`
+  - `alignItems: stretch` 会沿交叉轴**拉伸**每个子元素 - **只要子元素没有特定的宽度**(`flexDirection: column`) 或**高度** (`flexDirection: row`)。 
+
+#### 居中内容
+
+使用 `justifyContent: 'center'` 和 `alignItems: 'center'`。
+
+#### Flex 属性
+
+flexbox 的作用是**将控制权交给父元素，由它来处理其子元素的布局**。`flex` 属性有点不同，因为它**允许子元素指定它们相比于兄弟元素的高或宽**。
+
+![img](assets/9a1cfb5d-fbd0-4280-bb8f-8a7204b452e1)
+
+```jsx
+<View style={[styles.box, {flex: 1}]}/>
+<View style={[styles.box, {flex: 2}]}/>
+<View style={[styles.box, {flex: 1}]}/>
+```
+
+通常基于百分比的布局是特定元素相对于其他元素，正如我们上面所做的。同样重要的是，要注意如果你将一个元素设置为 `flex: 1`，**那个元素会与父元素占用同等多的空间（指这个子元素是父元素的唯一元素）**。这就是为什么在我们上面的大部分例子中，我们想让"布局区域"的大小与父元素的相同，这在我们的示例中是整个视口。
+
+#### 对齐各个 Flex 项目
+
+这正是 `alignSelf` 的功能所在！注意，它以 *align* 开头，所以像 `alignItems` 一样，它将沿交叉轴进行定位。它还与 `alignItems` 具有完全相同的选项（`flex-start`、`flex-end`、`center`、`stretch`）。
+
+![img](assets/02b79d35-882f-485a-9d7e-24dfec814c0f)
+
+```jsx
+<View style={styles.container}>
+  <View style={styles.box}/>
+  <View style={[styles.box, {alignSelf: 'flex-end'}]}/>
+  <View style={styles.box}/>
+</View>
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  box: {
+    width: 50,
+    height: 50,
+    backgroundColor: '#e76e63',
+    margin: 10,
+  }
+})
+```
+
+注意，我们所做的是向第二个子元素添加了 `alignSelf: flex-end`，它**覆盖了**父元素的指示 (`alignItems: 'center'`)。
+
+#### 总结
+
+React Native 利用 **flexbox** 的一个版本来构建组件布局。这主要是因为 flexbox 能够**跨不同的屏幕尺寸提供一致的布局**。
+
+Flexbox 容器包含两个轴: 一个**主轴**和一个**交叉轴**。使用 flexbox 构建布局时要考虑的一些关键属性包括 `flex-direction`、`justify-content` 和 `align-items`。然而，**React Native 对 flexbox 的实现有点不同**。我们将在下一小节看到不同之处！
+
+**进一步研究**
+
+- [Flexbox 的完整指南](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+- [Flexbox Froggy](http://flexboxfroggy.com/)
+
+### 3.3 React Native 中的布局
+
+- 在网络应用上，默认伸缩方向是横向（row），在 React Native 中，默认方向是纵向（column），因为我们是针对移动设备进行开发：
+  ![1542379198020](assets/1542379198020.png)
+- 在 React Native 中所有元素默认为 `display: flex;`。你直接使用默认值即可，无需添加不同的属性或编写额外的代码。
+- 你还会遇到的另一个主要区别在于如何使用 `flex` 属性。**在 web 上，`flex` 指定了一个 flex 项目如何增大或缩小，以管理其周围的空间（沿主轴）。在 React Native 中，`flex` 通常用于位于同一级别但具有不同 `flex` 值的 flex 项目。**
+
+
+
+#### 其他区别
+
+除上述外，这里是 React Native 应用于组件的其他常见 CSS 属性中的默认值列表:
+
+```css
+box-sizing: border-box;
+position: relative;
+align-items: stretch;
+flex-shrink: 0;
+align-content: flex-start;
+border: 0 solid black;
+margin: 0;
+padding: 0;
+min-width: 0;
+```
+
+### Platform API
+
+- 主要使用：Platform.OS === ‘ios’ ? ios 内容 : android 内容
+
+```jsx
+import { Platform } from 'react-native'
+
+return (
+    <TouchableOpacity
+      style={
+        Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn
+      }
+      onPress={onPress}
+    >
+      <Text style={styles.submitBtnText}>SUBMIT</Text>
+    </TouchableOpacity>
+  )
+```
+
+#### `Dimensions` API
+
+React Native 还带有一个 [Dimensions](http://facebook.github.io/react-native/releases/0.47/docs/dimensions.html) 组件, 它可以让你选择用户设备中窗口的宽和高！
+
+首先，确保从 React Native 拉取 API：
+
+```jsx
+import { Dimensions } from 'react-native';
+```
+
+然后，你可以直接使用 Dimensions API 的 `get` 方法抓取窗口大小：
+
+```jsx
+const { width, height } = Dimensions.get('window');
+```
+
+你可以自行使用这些尺寸来计划你的 `<View>` 会是什么样的。
+
+#### 总结
+
+React Native 使用 **flexbox** 来管理移动应用中的布局。但是，官方 flexbox 规范（即 CSS *on the web*）和 React Native 自己的实现之间有一些细微差别。大多数差别只是默认设置的不同。
+
+由于 Android 和 iOS 应用在外观和感觉方面也存在差异，React Native 还提供了一个 `Platform` API 来处理它们。
+
+在下一节课中，我们将会介绍一些常见的"陷阱"以及实现组件样式的最佳实践。
+
+**进一步研究**
+
+- [理解 React Native flexbox 布局](https://medium.com/the-react-native-log/understanding-react-native-flexbox-layout-7a528200afd4)
+- [特定于平台的代码](https://facebook.github.io/react-native/docs/platform-specific-code.html) 来自于 React Native 文档
+
+### 3.5 专业人士如何处理样式
+
+#### 样式：样式表与内联
+
+- StyleSheet API 最大的优点: 通过将样式从 render 函数中移除，使代码变得**更容易阅读和理解**。
+- **性能优势**：从样式对象制作样式表让我们可以使用 ID 引用它，而**无需在每次渲染时创建一个新的样式对象。**
+
+#### 媒体查询
+
+- 你可能注意到 React Native（以及特别是`StyleSheet` API）不支持[媒体查询](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries)。这是因为在大多数情况下，你可以使用 flexbox 设计响应式网格，这会省去使用媒体查询的需要。在极少数情况下，如果 flexbox 无法满足你的特定需求，你可以使用我们前面提到的 [Dimensions](https://facebook.github.io/react-native/docs/dimensions.html) API 得到类似的结果。
+
+#### CSS in JS 库
+
+- 其中最受欢迎的两个是 [Glamorous](https://github.com/robinpowered/glamorous-native) 和 [Styled Components](https://github.com/styled-components/styled-components)。这两个库的整体思想是，**样式是组件的重点所在，因此应该与组件本身结合。**
+
+- 使用 `styled-components`，如下：
+
+  ![1542646757758](assets/1542646757758.png)
+
+- 更多内容直接去查看文档吧。
+
+## 4.导航
+
+在原生应用中进行导航与在网络上进行导航完全不一样，当你在网络上进行导航时，通常是将 URL 映射到特定的组件：
+
+![1542706584113](assets/1542706584113.png)
+
+而在原生应用中，我们不再将 URL 映射到组件上，路由器会跟踪**路由堆栈**，可以看做一个路径数组，当你在应用中进行导航时，路由器从路径堆栈中弹出：
+
+![1542706688577](assets/a123.gif)
+
+react-navigation，它是一个 react-native 导航库，react-navigation 的主要功能是提供导航器，默认情况下，它们提供了三个导航器：
+
+- TabNavigator
+- StackNavigator
+- DrawerNavigator
+
+使用方式：
+
+安装：
+
+```shell
+yarn add react-navigation
+```
+
+引入：
+
+```jsx
+import { TabNavigator, StackNavigator, DrawerNavigator} from 'react-navigation'
+
+const Tabs = TabNavigator({
+  Hello: {
+    screen: Hello
+  },
+  Goodbye: {
+    screen: Goodbye
+  },
+});
+
+const Tabs =
+  Platform.OS === 'ios'
+    ? createBottomTabNavigator(RouteConfigs, TabNavigatorConfig)
+    : createMaterialTopTabNavigator(RouteConfigs, TabNavigatorConfig)
+
+const MainNavigator = createAppContainer(Tabs)
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <Tabs />
+    );
+  }
+}
+```
+
+（这一章节的内容打不多数都是在写代码，毕竟这部分只是一些 API 的调用，所以如果想了解更多的内容可以去查看文档。以下内容是课程中的一些筛选）
+
+- 在使用 `StackNavigator` 时，我们可以在像其传入的组件中，利用添加静态属性的方式来进行一些设置，比如下面就是通过返回一个带有 title 属性的对象来设置 title 所需要显示的内容：
+  ![1542787406863](assets/1542787406863.png)
+
+- 要在 RN 中对路由进行控制，需要使用方法 `NavigationAcitons`，来自于 ‘react-navigation’ 软件包，实现方法是，先新建一个方法，叫做 toHome，它将调用 `this.props.navigation.dispatch` 类似于 Redux，我们将分派 `NavigationsActions.back`，我们想要回到某个某地，我们从哪里回去呢？也就是具有 `key: ‘AddEntry’` 的位置，我们想从当前所在的位置回到之前的位置：
+  ![1542799396440](assets/1542799396440.png)
+
+
+
+#### 课程总结
+
+在这节课，你学习了如何使用 react-navigation 进行导航
+
+- TabNavigator 使你能够在应用屏幕中添加多个标签页。
+- StackNavigator 使应用能够在不同的屏幕之前转换，并且每个新屏幕都互相堆叠在一起。
+- DrawerNavigator 可以用来轻松地设置抽屉式导航栏。
+- 最后，你学习了如何嵌套不同的导航器以获得所需的路由方案。
+
+
+
+## 5. 原生功能
+
+- 来自 ‘react-native’ 包的 ActivityIndicator 组件能够显示加载状态的图标
+
+我们来看一段代码：
+
+![1542705662173](assets/1542705662173.png)
+
+这段代码表示当我们的 this.state.status 为不同的值时渲染不同的 UI，这是因为我们在考虑应用中的某些屏幕时，我们需要考虑不同的情况，特别是我们向用户请求一些权限时。
+
+> #### 💡 定位技巧 💡
+>
+> 每当你处理需要用户授权才能正常使用的功能时，你应考虑到有可能显示的所有不同 UI 选项。例如，在处理用户的位置时，有三种情况需要管理：
+>
+> 1. 用户给予你查看其位置的权限（最佳情况）。
+> 2. 用户决定不拒绝也不授予你查看其位置的权限。
+> 3. 用户拒绝你访问他们的位置。
+>
+> 在理想情况下，用户始终授予你需要的所有权限，但现实中并不总是如此。**因此作为 UI 开发人员，你需要针对这些情况做出相应的计划**。
+
+### 5.1 地理位置
+
+- 通常在处理**位置服务**时，你需要两个功能中的一个：获取用户的当前位置，或者获取和_监视_用户的当前位置以进行更新。Expo 的 `Location` 属性通过 `getCurrentPositionAsync` 和 `watchPositionAsync` 使我们可以同时使用这两个选项。
+
+  ```jsx
+  import { Location } from 'expo'
+  ```
+
+  - getCurrentPositionAsync` 会获取设备的当前位置，而不获取未来更新。`watchPositionAsync` 也会获得设备的当前位置，但也获得位置更新。这样，当设备位置发生变化时你会获得通知。
+
+- 在需要请求用户授予权限时，我们需要调用来自 ‘expo’ 的 `Permissions.askAsync()`。而我们在需要获得是否拥有用户的授权时，需要调用 `Permissions.getAsync()`
+  ![1542874542228](assets/1542874542228.png)
+
+### 5.2 动画
+
+流畅的动画效果是构建原生应用的基本组成部分，因此 React Native 内置了动画库，名字叫做 Animated。
+
+```jsx
+import { Animated } from 'react-native'
+```
+
+Animated 侧重于在输入和输出之间建立声明式关系，并且二者之间的转换可以配置。
+
+我们可以利用 Animated 实现三种主要的动画效果：
+
+- Decay 以一个初始速度开始，并逐渐减慢停止
+- Spring 就像你之前见过的物理弹簧效果
+- 然后是 Timing 在一定的时间范围内表示值的渐变动画效果
+
+Animated 的使用：
+
+- 在 state 中通过 new Animated.Value() 创建一个初始值：
+  - `opacity: new Animated.Value(0)`
+- 需要使用动画的组件，需要使用 Animated 下的组件 ，比如图片组件：
+  - `Animated.Image`
+- 在 componentDidMount 或者其他事件中调用 Animated.timing 或者 Animated.spring 等，传入需要一些参数：![1542967489262](assets/1542967489262.png)
+  - 注意有一个 `.start()` 方法
+
+> #### ⚠️ 注意：动画 ⚠️
+>
+> 完全掌握 Animated API 会为你打开新世界的大门。听起来不错，但它可能是双刃剑。这是一件好事，因为你现在有能力通过动画来增强应用的体验。但是，能力越大责任越大。
+>
+> **动画的目的是增强用户的体验，而不是分散注意力**。在你的应用中添加动画时记住这一点，**减少使用不必要的动画，这样不仅会提高应用的性能，还能最大限度地降低破坏用户体验的风险**。
+
+### 5.3 本地通知
+
+Expo 提供了一个通知 API（ Notifications ），其中具有一个 scheduleLocalNotificationAsync 方法。
+
+在处理通知时，务必记住通知有两种不同的类型：**推送通知**和**本地通知**。
+
+- **本地通知不使用也不需要任何外部基础设施; 它们完全发生在设备自身上**。这意味着设备显示通知的唯一要求是打开设备。
+- 然而，**推送通知要求需要有一个服务器，在发生某个事件时，该服务器会将通知推送到用户的设备。**
+
+API：
+
+- Notifications.cancelAllScheduledNotificationsAsync()
+- 

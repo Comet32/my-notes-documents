@@ -1,4 +1,4 @@
-# X. 手机单词卡
+### X. 手机单词卡
 
 > 使用 React Native 开发一款手机单词卡应用。
 
@@ -36,7 +36,7 @@
 
 
 
-<img src="assets/5f15944a-fe01-4b89-96e2-2746ba3abba1" style="zoom:40%" />
+<img src="assets/5f15944a-fe01-4b89-96e2-2746ba3abba1" style="zoom:35.6%" />
 
 卡片集列表视图
 
@@ -50,7 +50,7 @@
   - 显示开始该卡片集测试的选项
   - 添加新问题至卡片集的选项
 
-<img src="assets/5e9fdce3-b900-4f54-bfc8-b650adaba304" style="zoom:40%" />
+<img src="assets/5e9fdce3-b900-4f54-bfc8-b650adaba304" style="zoom:35.6%" />
 
 单个卡片集视图
 
@@ -68,17 +68,17 @@
 
 
 
-<img src="assets/d65297c7-de13-4b1a-b197-1a7dd516ee46" style="zoom:40%" />
+<img src="assets/d65297c7-de13-4b1a-b197-1a7dd516ee46" style="zoom:35.6%" />
 
 测试视图
 
-<img src="assets/d06db047-c1aa-4afc-a81b-822a4d1ef424" style="zoom:40%" />
+<img src="assets/d06db047-c1aa-4afc-a81b-822a4d1ef424" style="zoom:35.6%" />
 
 - 新卡片集视图
   - 输入新卡片集名称的选项
   - 提交新卡片集名称的选项
 
-<img src="assets/da5278d0-6469-4506-bddb-91ab7c099353" style="zoom:40%" />
+<img src="assets/da5278d0-6469-4506-bddb-91ab7c099353" style="zoom:35.6%" />
 
 - 新问题视图
   - 输入问题的选项
@@ -87,11 +87,11 @@
 
 
 
-<img src="assets/3f296394-84c6-4a2b-ba08-22e2772e81d1" style="zoom:40%" />
+<img src="assets/3f296394-84c6-4a2b-ba08-22e2772e81d1" style="zoom:35.6%" />
 
 ## 数据
 
-我们将使用 `AsyncStorage` 存储卡片集及单词卡。Redux也可作为备选。
+我们将使用 `AsyncStorage` 存储卡片集及单词卡。Redux 也可作为备选。
 
 使用`AsyncStorage`可以管理形似下列的对象：
 
@@ -130,12 +130,11 @@
 
 > `getDecks`: 返回包含卡片集标题、问题及答案信息的所有卡片集。 
 > `getDeck`: 传入单个`id`参数并返回与该id相关的卡片集。 
-> `saveDeckTitle`: 传入单个`id`参数并将其添加至卡片集 
-> `addCardToDeck`: 传入两个参数，即`标题`和`卡片`，然后将卡片添加至带有相关标题的卡片集下的问题列表
+> `saveDeckTitle`: 传入单个`id`参数并将其添加至卡片集。
+> `addCardToDeck`: 传入两个参数，即`标题`和`卡片`，然后将卡片添加至带有相关标题的卡片集下的问题列表。
 
 
 
 
 
 
-  

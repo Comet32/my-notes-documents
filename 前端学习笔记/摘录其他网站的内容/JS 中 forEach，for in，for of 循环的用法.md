@@ -33,7 +33,7 @@ array.forEach（function(v){
  
 ```
 
-## 四、用for in不仅可以对数组,也可以对enumerable对象操作
+## 四、用for in不仅可以对数组,也可以对 enumerable 对象操作
 
 ```js
 var A = {a:1,b:2,c:3,d:"hello world"};  
@@ -57,13 +57,11 @@ for(let k in A) {
       }
 ```
 
+总结来说: for in 总是得到对像的key或数组,字符串的下标（index 或者说 key）,而for of 和forEach 一样,是直接得到值。
 
+for of 对于新出来的 Map,Set 上的使用
 
- 总结来说:for in总是得到对像的key或数组,字符串的下标,而for of和forEach一样,是直接得到值
-结果for of不能对象用
-对于新出来的Map,Set上面
-
-```
+```js
     var set = new Set();  
     set.add("a").add("b").add("d").add("c");  
     var map = new Map();  
@@ -79,22 +77,22 @@ for(let k in A) {
 
 javascript遍历对象详细总结
 
-1.原生javascript遍历
+1.原生 javascript 遍历
 
-（1）for循环遍历
+（1）for 循环遍历
 
-```
+```js
 let array1 = ['a','b','c'];
 for (let i = 0;i < array1.length;i++){
   console.log(array1[i]);  // a  b  c 
 }
 ```
 
-（2）JavaScript 提供了 foreach()  map() 两个可遍历 Array对象 的方　　　　
+（2）JavaScript 提供了 foreach()  map() 两个可遍历 Array对象的方法
 
-​    forEach和map用法类似，都可以**遍历到数组的每个元素**，而且参数一致； 
+forEach 和 map 用法类似，都可以**遍历到数组的每个元素**，而且参数一致； 
 
-```
+```js
 Array.forEach(function(value , index , array){ //value为遍历的当前元素，index为当前索引，array为正在操作的数组
   //do something
 },thisArg)      //thisArg为执行回调时的this值
@@ -102,13 +100,13 @@ Array.forEach(function(value , index , array){ //value为遍历的当前元素�
 
 **不同点：**
 
-  forEach() 方法对数组的每个元素执行一次提供的函数。总是返回undefined；
+forEach() 方法对数组的每个元素执行一次提供的函数。总是返回 undefined；
 
-  map() 方法创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果。返回值是一个新的数组；
+map() 方法创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果。返回值是一个新的数组；
 
-  例子如下：
+例子如下：
 
-```
+```jsx
 var array1 = [1,2,3,4,5];
  
 var x = array1.forEach(function(value,index){
@@ -130,8 +128,8 @@ console.log(y);   //[11, 12, 13, 14, 15]   返回一个新的数组
 
 对于类似数组的结构，可**先转换为数组**，再进行遍历
 
-```
-let divList = document.querySelectorAll('div');   //divList不是数组，而是nodeList
+```js
+let divList = document.querySelectorAll('div');   //divList不是数组，而是 nodeList
  
 //进行转换后再遍历
 [].slice.call(divList).forEach(function(element,index){
@@ -154,7 +152,7 @@ Array.prototype.slice.call(divList).forEach(function(element,index){
 
 补充 : 因为迭代的顺序是依赖于执行环境的，所以数组遍历不一定按次序访问元素。 因此当迭代那些访问次序重要的 arrays 时用整数索引去进行 [`for`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/for) 循环 (或者使用 [`Array.prototype.forEach()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) 或 [`for...of`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...of) 循环) 。
 
-```
+```js
 let array2 = ['a','b','c']
 let obj1 = {
   name : 'lei',
@@ -170,13 +168,13 @@ for(variable  in obj1){   //variable 为属性名
 }
 ```
 
- ES6新增了 遍历器(Iterator)机制，为不同的数据结构提供统一的访问机制。只要部署了Iterator的数据结构都可以使用 for ··· of ··· 完成遍历操作  ( Iterator详解 ：  http://es6.ruanyifeng.com/#docs/iterator )，每次迭代分配的是 **属性值**
+ ES6 新增了 遍历器(Iterator)机制，为不同的数据结构提供统一的访问机制。只要部署了Iterator 的数据结构都可以使用 for ··· of ··· 完成遍历操作  ( Iterator详解 ：  http://es6.ruanyifeng.com/#docs/iterator )，每次迭代分配的是 **属性值**
 
  原生具备 Iterator 接口的数据结构如下：
 
- Array   Map Set String TypedArray 函数的arguments对象 NodeList对象
+ Array  Map Set String TypedArray 函数的 arguments 对象 NodeList 对象
 
-```
+```js
 let array2 = ['a','b','c']
 let obj1 = {
   name : 'lei',
@@ -194,17 +192,17 @@ for(variable  of obj1){  //<strong>普通对象不能这样用</strong>
 
 
 
-如何让普通对象可以用for of 进行遍历呢？  http://es6.ruanyifeng.com/#docs/iterator  一书中有详细说明了！
+如何让普通对象可以用 for of 进行遍历呢？  http://es6.ruanyifeng.com/#docs/iterator  一书中有详细说明了！
 
- 
 
-　　除了迭代时分配的一个是属性名、一个是属性值外，for in 和 for of 还有其他不同    (MDN文档： https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...of)
 
-　　　　for...in循环会遍历一个object所有的可枚举属性。
+除了迭代时分配的一个是属性名、一个是属性值外，for in 和 for of 还有其他不同    (MDN文档： https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...of)
 
-　　　   for...of会遍历具有iterator接口的数据结构
+for...in循环会遍历一个object所有的可枚举属性。
 
-　　　   `for...in` 遍历（当前对象及其原型上的）每一个属性名称,而 `for...of遍历（当前对象上的）每一个属性值`
+for...of会遍历具有 iterator 接口的数据结构
+
+  `for...in` 遍历（当前对象及其原型上的）每一个属性名称,而 `for...of遍历（当前对象上的）每一个属性值`
 
 
 

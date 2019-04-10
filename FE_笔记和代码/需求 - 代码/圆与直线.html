@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: #999
+  }
+
+  div.wrapper {
+    position: relative;
+  }
+
+  div.one {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background-color: crimson;
+    border-radius: 50%; 
+    line-height: 200px;
+    text-align: center;
+    transition: all 10s linear;
+  }
+
+  div.one:hover .two {
+    transform: rotate(360deg)
+  }
+
+  div.one:hover .two::after {
+    transform: rotate(360deg)
+  }
+
+  div.two {
+    display: block;
+    width: 200px;
+    height: 200px;
+    background-color: seagreen;
+    border-radius: 50%;
+    transform-origin: 100px 300px;
+    transition: all 10s linear;
+  }
+
+  div.two:hover{
+    transform: translate(629px)
+  }
+
+  div.two:hover::after{
+    transform: rotate(360deg)
+  }
+
+
+  div.two::after {
+    content: 'Hello Red';
+    position: absolute;
+    display: block;
+    width: 200px;
+    height: 200px;
+    background-color: seagreen;
+    border-radius: 50%;
+    transition: all 10s linear;
+    line-height: 200px;
+    text-align: center;
+  }
+
+  .platform{
+    height: 300px;
+    width: 629px;
+    background-color: saddlebrown;
+    transform: translateX(100px)
+  }
+</style>
+
+<body>
+  <div class="wrapper">
+      <div class="two"></div>
+      <div class="platform"></div>
+  </div>
+</body>
+<script>
+  var divWrapper = document.querySelector('.wrapper')
+  divWrapper.style.height = window.innerHeight + 'px'
+</script>
+
+</html>

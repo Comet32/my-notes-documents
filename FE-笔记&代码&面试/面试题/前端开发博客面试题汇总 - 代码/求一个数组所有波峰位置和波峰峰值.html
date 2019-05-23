@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>求一个数组所有波峰位置和波峰峰值？</h1>
+    <h2>波峰位置组：<span class="positions"></span></h2>
+    <h2>波峰峰值组：<span class="peaks"></span></h2>
+  </body>
+  <script>
+    // 求一个数组所有波峰位置和波峰峰值？
+    // pos: 保存波峰元素所在下标数组
+    // peaks: 保存波峰元素值的数组
+    // 例如：
+    // var arr = [3, 2, 3, 6, 4, 1, 2, 3, 2, 1, 2, 3]
+    // pickPeaks(arr) // {pos: [3, 7], peaks: [6, 3]}
+    // pickPeaks([]) // {pos: [], peaks: []}
+
+    function pickPeaks(arr) {
+      let pos = []
+      let peaks = []
+      for (let i = 1; i < arr.length - 1; i++) {
+        if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
+          pos.push(i)
+          peaks.push(arr[i])
+        }
+      }
+      return { pos, peaks }
+    }
+
+    let arr = [3, 2, 3, 6, 4, 1, 2, 3, 2, 1, 2, 3]
+    let result = pickPeaks(arr)
+
+    document.querySelector('.positions').innerText = result.pos
+    document.querySelector('.peaks').innerText = result.peaks
+  </script>
+</html>

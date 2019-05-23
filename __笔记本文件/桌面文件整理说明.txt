@@ -1,0 +1,9 @@
+文本整理：
+1、可以通过输入zuo 或者 you 来获得左右箭头
+2、vivaldi 的指导原则：相互尊重，质疑一切，富有创造性并完成工作
+3、
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+
+这三个属性一起使用，可以使元素在行内超出时显示 ...

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+
+    <h2>1.表单元素 type=hidden 未脱离文档流，无法触发绑定事件</h2>
+    <input>
+    <input type="hidden" />
+
+    <h2>2.display:none; 或者 html 的 hidden 属性脱离文档流，无法触发绑定事件</h2>
+    <div>123</div>
+    <div style="display:none;">123</div>
+    <div hidden>123</div>
+
+    <h2>3.visibility: hidden 未脱离文档流，无法触发绑定事件</h2>
+    <div style="visibility:hidden;">123</div>
+
+    <h2>4.透明度 opacity:0; 未脱离文档流，可以触发绑定事件</h2>
+    <div style="opacity:0;">123</div>
+
+    <h2>5.绝对定位 position:absolute; 未脱离文档流，可以触发绑定事件</h2>
+    <div style="position:absolute; left:-9999px">123</div>
+
+  </body>
+</html>

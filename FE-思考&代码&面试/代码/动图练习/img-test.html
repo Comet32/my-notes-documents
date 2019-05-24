@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      .container {
+        width: 276px;
+        height: 226px;
+        background: url(./img.png) no-repeat;
+      }
+      .container:hover {
+        animation: img 1.2s steps(1) infinite;
+      }
+      @keyframes img {
+        0% {
+          background-position-y: 0;
+        }
+        10% {
+          background-position-y: -226px;
+        }
+        20% {
+          background-position-y: -452px;
+        }
+        30% {
+          background-position-y: -678px;
+        }
+        40% {
+          background-position-y: -903px;
+        }
+        50% {
+          background-position-y: -1129px;
+        }
+        60% {
+          background-position-y: -1355px;
+        }
+        70% {
+          background-position-y: -1581px;
+        }
+        80% {
+          background-position-y: -1807px;
+        }
+        90% {
+          background-position-y: -2033px;
+        }
+        100% {
+          background-position-y: -2259px;
+        }
+      }
+      .dotting {
+        display: inline-block;
+        min-width: 2px;
+        min-height: 2px;
+        margin-right: 8px;
+        box-shadow: 2px 0, 6px 0, 10px 0;
+        animation: dot 4s infinite step-start both;
+      }
+      @keyframes dot {
+        25% {
+          box-shadow: none;
+        } /* 0个点 */
+        50% {
+          box-shadow: 2px 0;
+        } /* 1个点 */
+        75% {
+          box-shadow: 2px 0, 6px 0;
+        } /* 2个点 */
+      }
+      .subsection {
+        width: 200px;
+        height: 200px;
+        background-color: #333;
+      }
+      .subsection:hover {
+        animation: subsection 2s steps(1) infinite;
+      }
+      @keyframes subsection {
+        25% {
+          width: 400px;
+        }
+
+        50% {
+          width: 600px;
+        }
+
+        75% {
+          width: 800px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container"></div>
+    <button>订单提交中<span class="dotting"></span></button>
+    <div class="subsection"></div>
+    <h3>
+      更详细的内容请查看：<a target="_blank"
+        href="https://www.zhangxinxu.com/wordpress/2018/06/css3-animation-steps-step-start-end/"
+        >CSS3 animation属性中的steps功能符深入介绍</a
+      >
+    </h3>
+  </body>
+</html>

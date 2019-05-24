@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 200px;
+        height: 200px;
+        background-color: lightgreen;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        cursor: move;
+      }
+    </style>
+  </head>
+  <body>
+    <img
+      id="jartto"
+      src="https://leancloud-gold-cdn.xitu.io/9a8c6803039e7613b311.jpg"
+      width="250"
+    />
+    <div id="square" draggable="true"></div>
+  </body>
+  <script>
+    var s = document.querySelector("#square")
+    let x = 0,
+      y = 0
+    s.addEventListener("mousedown", function(e) {
+      x = e.offsetX
+      y = e.offsetY
+    })
+    // s.addEventListener("drag", function(e) {
+    //   console.log('x', x)
+    //   s.style.left = e.clientX - x + "px"
+    //   s.style.top = e.clientY - y + "px"
+    // })
+    s.addEventListener("dragend", function(e) {
+      s.style.left = e.clientX - x + "px"
+      s.style.top = e.clientY - y + "px"
+    })
+  </script>
+</html>

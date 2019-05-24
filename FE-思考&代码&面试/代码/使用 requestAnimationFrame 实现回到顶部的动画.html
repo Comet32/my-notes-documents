@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <style lang="">
+    body {
+      height: 10000px;
+    }
+    button {
+      width: 500px;
+      height: 200px;
+      border-radius: 20px;
+      position: fixed;
+      top: 50%;
+      right: 50%;
+      margin-right: -250px;
+      margin-top: -100px;
+      font-size: 100px;
+      border: 10px violet solid;
+      cursor: pointer;
+      transition: all 0.5s;
+    }
+    button:hover {
+      border-color: cadetblue;
+    }
+    button:focus {
+      border-color: salmon;
+      outline: none;
+    }
+    span {
+      display: inline-block;
+      animation: slide 1s linear infinite;
+    }
+    @keyframes slide {
+      30% {
+        transform: translateY(20px);
+      }
+    }
+  </style>
+  <body>
+    <button><span>👆</span></button>
+  </body>
+  <script>
+    var button = document.getElementsByTagName("button")[0]
+    function slideToTop(ms) {
+      // 滚动条距离文档顶部的距离
+      let topLength = document.documentElement.scrollTop
+      // 用于存放 requestAnimationFrame 所返回的 id
+      let timer = null
+      //帧数
+      let time = ms / 16
+      //每帧所移动的长度
+      let lengthPreFrame = topLength / time
+      requestAnimationFrame(function move() {
+        // 重新获取距离文档顶部的距离,用于判断是否取消 requestAnimationFrame 的执行
+        let top = document.documentElement.scrollTop
+        if (top > 0) {
+          document.documentElement.scrollTop -= lengthPreFrame
+          timer = requestAnimationFrame(move)
+        } else {
+          cancelAnimationFrame(timer)
+        }
+      })
+    }
+    button.addEventListener("click", function() {
+      slideToTop(500)
+    })
+  </script>
+</html>

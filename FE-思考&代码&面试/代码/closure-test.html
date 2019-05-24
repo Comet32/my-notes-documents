@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>closure-test</title>
+  </head>
+  <style>
+    body{
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      padding-top: 100px;
+      box-sizing: border-box;
+      justify-content: center;
+    }
+    div {
+      width: 200px;
+      height: 200px;
+      text-align: center;
+      line-height: 200px;
+      font-size: 50px;
+      float: left;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    div:nth-child(1){
+      background-color: #413043;
+    }
+    div:nth-child(2){
+      background-color: #d1cebe;
+    }
+    div:nth-child(3){
+      background-color: #f6eee3;
+    }
+    div:nth-child(4){
+      background-color: #da694b;
+    }
+    div:hover {
+      background-color: #000;
+      color: #fff;
+    }
+    span {
+      color: crimson;
+    }
+  </style>
+  <body>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </body>
+  <script>
+    var divs = document.querySelectorAll('div')
+    var body = document.querySelector('body') 
+    // 实现点击每一个方块，内部显示从0开始的累加
+
+    // 使用 forEach 传递回调，这样每一次都会产生一个闭包存储 num 的值
+    // divs.forEach(item => {
+    //   var num = 0
+    //   item.addEventListener('click', function() {
+    //     item.innerHTML = num
+    //     num++
+    //   })
+    // })
+
+    // 使用 for 循环加上 let，使块级作用域内产生闭包保存 div 与 num 的值
+    // for (let i = 0; i < divs.length; i++) {
+    //   let div = divs[i]
+    //   let num = 0
+    //   div.addEventListener('click', function() {
+    //     div.innerHTML = num
+    //     num++
+    //   })
+    // }
+
+    // 通过立即执行函数内部创建一个闭包来存储值
+    for (var i = 0; i < divs.length; i++) {
+      var div = divs[i]
+      var num = 0
+      div.addEventListener(
+        'click',
+        (function(div, num) {
+          return function() {
+            div.innerHTML = num
+            num++
+          }
+        })(div, num)
+      )
+    }
+
+    function foo(){
+      var a = 0;
+      return function(){
+        return a
+      }
+    }
+    let far = foo()
+    far()
+  </script>
+</html>

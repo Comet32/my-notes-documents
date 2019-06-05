@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <style>
+    #main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      background-color: crimson;
+      border: 1px black solid;
+      border-radius: 5%;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s;
+    }
+    #main::after {
+      content: 'Click Me!';
+      color: snow;
+      font-size: 50px;
+    }
+    #main::before {
+      content: 'Drag Me!';
+      color: snow;
+      font-size: 50px;
+    }
+    span{
+      color: snow;
+      font-size: 30px;
+    }
+  </style>
+  <body>
+    <div id="main" draggable="true"><span>or</span></div>
+    <script>
+      let targetNode = document.getElementById('main')
+      let toggle = 1
+      targetNode.addEventListener('click', () => {
+        if (toggle) {
+          targetNode.style.cssText = `
+          width: 100vw;
+          height: 100vh;
+          border-radius: 0;
+        `
+          toggle = 0
+        } else {
+          targetNode.style.cssText = `
+          width: 300px;
+          height: 300px;
+          border-radius: 5%;
+        `
+          toggle = 1
+        }
+      })
+
+      // 拖动元素的测试
+      let xInNode, yInNode
+      targetNode.addEventListener('dragend', e => {
+        console.log('dragend')
+        let x = e.clientX - xInNode
+        let y = e.clientY - yInNode
+        targetNode.style.cssText = `
+          transform: none;
+          top: ${y}px;
+          left: ${x}px;
+        `
+      })
+
+      targetNode.addEventListener('mousedown', e => {
+        console.log('mousedown')
+        xInNode = e.offsetX
+        yInNode = e.offsetY
+      })
+
+      targetNode.addEventListener('dragstart', e => {
+        console.log('dragstart')
+      })
+
+      // 以下是 MDN 上关于 mutaionObserver 的示例代码
+
+      // Options for the observer (which mutations to observe)
+      let config = {
+        attributes: true,
+        childList: true,
+        subtree: true
+      }
+
+      // Callback function to execute when mutations are observed
+      const mutationCallback = mutationsList => {
+        for (let mutation of mutationsList) {
+          let type = mutation.type
+          switch (type) {
+            case 'childList':
+              console.log('A child node has been added or removed.')
+              break
+            case 'attributes':
+              console.log(
+                `The ${mutation.attributeName} attribute was modified.`
+              )
+              break
+            case 'subtree':
+              console.log(`The subtree was modified.`)
+              break
+            default:
+              break
+          }
+        }
+      }
+
+      // Create an observer instance linked to the callback function
+      let observer = new MutationObserver(mutationCallback)
+
+      // Start observing the target node for configured mutations
+      observer.observe(targetNode, config)
+
+      // Later, you can stop observing
+    </script>
+  </body>
+</html>

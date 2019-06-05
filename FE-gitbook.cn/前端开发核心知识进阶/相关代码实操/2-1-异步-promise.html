@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
+      .container {
+        position: relative;
+        width: 1200px;
+        height: 500px;
+        margin: 200px auto;
+        border: 1px solid black;
+      }
+      #man {
+        width: 100px;
+        height: 100px;
+        background-color: salmon;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="man"></div>
+    </div>
+    <script>
+      const target = document.querySelectorAll('#man')[0]
+      target.style.cssText = `
+       position: absolute;
+       left: 0px;
+       top: 0px
+       `
+      
+      const walk = (direction, distance) =>{
+        // 如果回调放在 walk 函数之外声明，则无法获取传入 walk 的参数，函数所定义的位置决定了函数的作用域
+        const promiseCallback = function(resolve, reject){
+          let initLeft = parseInt(target.style.left, 10)
+          let initTop = parseInt(target.style.top, 10)
+          const innerWalk = () => {
+            setTimeout(() => {
+              let currentLeft = parseInt(target.style.left, 10)
+              let currentTop = parseInt(target.style.top, 10)
+              const shouldFinish =
+              (direction === 'left' && currentLeft === -(distance - initLeft)) ||
+              (direction === 'top' && currentTop === -(distance - initTop)) 
+              debugger
+              if (shouldFinish) {
+                // 任务之行结束
+                resolve()
+              } else {
+                if (direction === 'left') {
+                  currentLeft--
+                  target.style.left = `${currentLeft}px`
+                } else if (direction === 'top') {
+                  currentTop--
+                  target.style.top = `${currentTop}px`
+                }
+                
+                innerWalk()
+              }
+            }, 20)
+          }
+          innerWalk()
+        }
+        return new Promise(promiseCallback)
+      }
+        
+
+      walk('left', 20)
+        .then(() => walk('top', 50))
+        .then(() => walk('left', 30))
+    </script>
+  </body>
+</html>

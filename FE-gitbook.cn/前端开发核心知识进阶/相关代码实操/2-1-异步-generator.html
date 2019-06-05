@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
+      .container {
+        position: relative;
+        width: 1200px;
+        height: 500px;
+        margin: 200px auto;
+        border: 1px solid black;
+      }
+      #man {
+        width: 100px;
+        height: 100px;
+        background-color: salmon;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="man"></div>
+    </div>
+    <script>
+      const target = document.querySelectorAll('#man')[0]
+      target.style.cssText = `
+          position: absolute;
+          left: 0px;
+          top: 0px
+      `
+
+      const walk = (direction, distance) => {
+        setTimeout(() => {
+          let currentLeft = parseInt(target.style.left, 10)
+          let currentTop = parseInt(target.style.top, 10)
+
+          const shouldFinish =
+            (direction === 'left' && currentLeft === -distance) ||
+            (direction === 'top' && currentTop === -distance)
+
+          if (shouldFinish) {
+            // 任务之行结束
+            return '完成'
+          } else {
+            if (direction === 'left') {
+              currentLeft--
+              target.style.left = `${currentLeft}px`
+            } else if (direction === 'top') {
+              currentTop--
+              target.style.top = `${currentTop}px`
+            }
+            walk(direction, distance)
+          }
+        }, 20)
+      }
+      function* taskGenerator() {
+        yield walk('left', 20)
+        yield walk('top', 50)
+        yield walk('left', 30)
+      }
+      const gen = taskGenerator()
+      gen.next()
+      gen.next()
+      gen.next()
+    </script>
+  </body>
+</html>

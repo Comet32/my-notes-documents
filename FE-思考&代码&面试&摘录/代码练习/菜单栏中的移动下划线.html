@@ -43,6 +43,20 @@
     transition: all .5s;
     opacity: 0;
   }
+
+  section{
+    margin: 200px auto;
+    height: 200px;
+    width: 200px;
+    background-color: saddlebrown;
+  }
+  section:hover{
+    transform: rotate(666turn);
+    transition-delay: 1s;
+    transition-property: all;
+    transition-duration: 59s;
+    transition-timing-function: cubic-bezier(.34,0,.84,1);
+  }
 </style>
 
 <body>
@@ -54,13 +68,14 @@
     <li>菜单五</li>
     <div class="line"></div>
   </ul>
+  <section>
+  </section>
 </body>
 <script>
   var div = document.querySelector('.line')
   var ul = document.querySelector('ul')
   var lis = document.querySelectorAll('li')
-  var divMargin = div.style.marginLeft
-  lis.forEach(li =>{
+  lis.forEach(li => {
     li.addEventListener('mouseenter',function(){
       div.style.marginLeft = (li.offsetLeft - 20 - ul.offsetLeft) + 'px'
       div.style.opacity = 1

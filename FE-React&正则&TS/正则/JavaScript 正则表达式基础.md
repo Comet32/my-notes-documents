@@ -443,7 +443,7 @@ console.log(
 
 ### 示例:
 
-```javascript
+``` javascript
 console.log(
     
     'html'.search(/m/), // 2

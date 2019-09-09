@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      #parent {
+        margin: 200px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 400px;
+        height: 400px;
+        background-color: seagreen;
+      }
+      #child {
+        width: 200px;
+        height: 200px;
+        background-color: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="parent">
+      <p id="child"></p>
+    </div>
+    <script>
+      var phases = {
+        1: 'capture',
+        2: 'target',
+        3: 'bubble'
+      };
+
+      var isLogEvent = false
+
+      var div = document.querySelector('div');
+      var p = document.querySelector('p');
+
+      div.addEventListener('click', callback, true);
+      p.addEventListener('click', callback, true);
+      div.addEventListener('click', callback, false);
+      p.addEventListener('click', callback, false);
+      
+      function callback(event) {
+        if(!isLogEvent){
+          console.log('event', event)
+          isLogEvent = true
+        }
+        var tag = event.currentTarget.tagName;
+        var phase = phases[event.eventPhase];
+        console.log("Tag: '" + tag + "'. EventPhase: '" + phase + "'");
+      }
+
+      // 点击以后的结果
+      // Tag: 'DIV'. EventPhase: 'capture'
+      // Tag: 'P'. EventPhase: 'target'
+      // Tag: 'P'. EventPhase: 'target'
+      // Tag: 'DIV'. EventPhase: 'bubble'F
+    </script>
+  </body>
+</html>

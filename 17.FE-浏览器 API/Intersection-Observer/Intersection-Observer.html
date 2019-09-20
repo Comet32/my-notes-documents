@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      height: 2000px;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100px;
+      width: 100%;
+      background-color: crimson;
+      line-height: 100px;
+      text-align: center;
+      font-size: 60px;
+      color: #fff;
+      opacity: .7;
+    }
+    div {
+      width: 200px;
+      background-color: skyblue;
+      height: 200px;
+      margin: auto;
+      margin-top: 1200px;
+      color: #fff;
+      font-size: 40px;
+      line-height: 200px;
+      text-align: center;
+    }
+  </style>
+  <body>
+    <header id="header">Invisible</header>
+    <div id="block">Block 1</div>
+    <div id="block2">Block 2</div>
+
+    <script>
+      let header = $('#header');
+      let block = $('#block');
+      let block2 = $('#block2');
+      let options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: [0, 0.5, 1]
+      };
+      function $(selector) {
+        return document.querySelector(selector);
+      }
+      function cb(entries, observer) {
+        console.log('entries', entries);
+        console.log('observer', observer);
+        let visibleEle = entries[0].target
+        if (entries[0].isIntersecting) {
+          header.style.backgroundColor = 'chartreuse';
+          header.innerHTML = 'Visible' + ' ' + visibleEle.innerHTML
+        }else{
+          header.style.backgroundColor = 'crimson';
+          header.innerHTML = 'Invisible'
+        }
+      }
+      let observer = new IntersectionObserver(cb, options);
+      observer.observe(block);
+      observer.observe(block2);
+    </script>
+  </body>
+</html>

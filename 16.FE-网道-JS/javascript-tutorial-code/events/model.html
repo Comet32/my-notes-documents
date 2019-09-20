@@ -29,6 +29,7 @@
   <body>
     <div id="parent">
       <p id="child"></p>
+      
     </div>
     <script>
       var phases = {
@@ -54,7 +55,7 @@
         }
         var tag = event.currentTarget.tagName;
         var phase = phases[event.eventPhase];
-        console.log("Tag: '" + tag + "'. EventPhase: '" + phase + "'");
+        console.log("Tag: '" + tag + "'. EventPhase:  '" + phase + "'");
       }
 
       // 点击以后的结果

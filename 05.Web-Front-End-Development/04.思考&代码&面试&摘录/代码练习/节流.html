@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>节流</title>
+  </head>
+  <body>
+    <h3>第一种方式：</h3>
+    <button id="throttle">点我节流！</button>
+    <br />
+    <br />
+    <cite>第一种方式并不会立即触发，会在节流时间内后触发，并且节流时间内只执行第一次所触发的事件</cite>
+    <h3>第二种方式：</h3>
+    <input id="throttle2" />
+    <br />
+    <br />
+    <cite>第二种方式能在第一次触发事件时就立即调用事件方法，并且在节流时间内的最后一次触发的事件也会在延时之后执行</cite>
+    <h3>第三种方式：</h3>
+    <button id="throttle3">点我节流！</button>
+    <br />
+    <br />
+    <cite>第三种方式会立即触发函数，但在节流时间内只触发第一次，并且节流时间内触发的其他事件并不会在延时之后执行</cite>
+    <script>
+      window.onload = function() {
+        // 1、获取按钮，绑定点击事件
+        let myThrottle = document.getElementById('throttle')
+        let throttleFn = throttle(sayThrottle, 1000)
+        myThrottle.addEventListener('click', throttleFn)
+      }
+
+      // 2、节流函数体
+      function throttle(fn, delay) {
+        // 4、通过闭包保存一个标记
+        let canRun = true
+        return function(...args) {
+          // 5、在函数开头判断标志是否为 true，不为 true 则中断函数
+          if (!canRun) {
+            return
+          }
+          // 6、将 canRun 设置为 false，防止执行之前再被执行
+          canRun = false
+          // 7、定时器
+          setTimeout(() => {
+            // 8、执行完事件（比如调用完接口）之后，重新将这个标志设置为 true
+            fn(...args)
+            canRun = true
+          }, delay)
+        }
+      }
+
+      // 3、需要节流的事件
+      function sayThrottle(e) {
+        console.log('节流成功！', e.target.innerHTML)
+      }
+
+      // 第二种方法 - 第一次触发函数时没有延迟，但这个方法如果连续点击两次，虽然第一次会触发，但第二次会在延时过来再次触发，其实这是比较友好的方式，因为会为最后一次
+      function throttle2(fun, delay) {
+        // 两个变量会被存放到闭包之中
+        // last 代表执行方法的时间，deferTimer 是用于在节流时间内取消定时器的标示符
+        let last, deferTimer
+        return function(args) {
+          let that = this
+          let _args = arguments
+          // 事件触发时的时间
+          let now = +new Date()
+          // 触发过事件方法并且当前事件触发时间在节流时间（上一次触发与下一次触发之内不能触发事件的时间）之内则执行
+          if (last && now < last + delay) {
+            clearTimeout(deferTimer)
+            deferTimer = setTimeout(function() {
+              last = now
+              fun.apply(that, _args)
+            }, delay)
+          //没有触发过事件，或者触发事件的时间超过了节流时间
+          } else {
+            last = now
+            fun.apply(that, _args)
+          }
+        }
+      }
+
+      function ajax(value) {
+        console.log('value', value)
+      }
+
+      // 先将由 throttle 返回的函数存入变量，这样就可以通过调用这个变量来传入参数获取想要的值
+      let throttleAjax = throttle2(ajax, 1000)
+
+      let inputc = document.getElementById('throttle2')
+      inputc.addEventListener('input', function(e) {
+        throttleAjax(e.target.value)
+      })
+
+      document.addEventListener('keyup', function(e) {
+        if (document.activeElement !== inputc) {
+          inputc.value = e.key
+          inputc.focus()
+          throttleAjax(e.target.value)
+        }
+      })
+
+      // 第三种方法
+      function throttle3(func, limit = 250) {
+        let inThrottle = false
+        return function() {
+          const args = arguments
+          const that = this
+          if (!inThrottle) {
+            inThrottle = true
+            func.apply(that, args)
+            setTimeout(() => (inThrottle = false), limit)
+          }
+        }
+      }
+
+      function ajax3(event) {
+        console.log('3.event', event)
+      }
+
+      const throttleAjax3 = throttle3(ajax3, 1000)
+
+      const btn3 = document.querySelector('#throttle3')
+      btn3.addEventListener('click', throttleAjax3)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+    }
+    .loader {
+      width: 500px;
+      height: 500px;
+      border: 1px solid black;
+    }
+    .loader div {
+      position: absolute;
+      top: calc(50% - 10px);
+      left: calc(50% + 50px);
+      background-color: #333;
+      width: 100px;
+      height: 20px;
+      border-radius: 40%;
+      transform-origin: -50px center;
+      animation: loader 1s linear infinite;
+      opacity: 1;
+    }
+    .loader div:nth-child(1) {
+      transform: rotateZ(30deg);
+      /* opacity: 0.083333; */
+      animation-delay: 0.083333s;
+    }
+    .loader div:nth-child(2) {
+      transform: rotateZ(60deg);
+      /* opacity: 0.166666; */
+      animation-delay: 0.166666s;
+    }
+    .loader div:nth-child(3) {
+      transform: rotateZ(90deg);
+      /* opacity: 0.25; */
+      animation-delay: 0.25s;
+    }
+    .loader div:nth-child(4) {
+      transform: rotateZ(120deg);
+      /* opacity: 0.33333; */
+      animation-delay: 0.33333s;
+    }
+    .loader div:nth-child(5) {
+      transform: rotateZ(150deg);
+      /* opacity: 0.416666; */
+      animation-delay: 0.416666s;
+    }
+    .loader div:nth-child(6) {
+      transform: rotateZ(180deg);
+      animation-delay: .5s;
+    }
+    .loader div:nth-child(7) {
+      transform: rotateZ(210deg);
+      /* opacity: 0.583333; */
+      animation-delay: 0.583333s;
+    }
+    .loader div:nth-child(8) {
+      transform: rotateZ(240deg);
+      /* opacity: 0.66666; */
+      animation-delay: 0.66666s;
+    }
+    .loader div:nth-child(9) {
+      transform: rotateZ(270deg);
+      /* opacity: 0.75; */
+      animation-delay: 0.75s;
+    }
+    .loader div:nth-child(10) {
+      transform: rotateZ(300deg);
+      /* opacity: 0.8333333; */
+      animation-delay: 0.8333333s;
+    }
+    .loader div:nth-child(11) {
+      transform: rotateZ(330deg);
+      /* opacity: 0.9166666; */
+      animation-delay: 0.9166666s;
+    }
+    .loader div:nth-child(12) {
+      transform: rotateZ(360deg);
+      /* opacity: 1; */
+      animation-delay: 1s;
+    }
+    @keyframes loader{
+      0%{
+        opacity: 0;
+      }
+      100%{
+        opacity: 1;
+      }
+    }
+  </style>
+  <body>
+    <div class="loader">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </body>
+</html>

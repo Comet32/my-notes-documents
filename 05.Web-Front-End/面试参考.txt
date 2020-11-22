@@ -1,0 +1,10 @@
+html ：语义化标签 h5新增的标签 标签选择器 权重 伪元素 
+
+css: display属性 visibility区别于display:none,清楚浮动的方式，伪元素的用法 ，圣杯、双飞翼布局（手写），position，
+
+其他：数据类型 判断数据类型的几种方法 回调事件 异步同步事件 回调队列 事件循环机制 localstorage sessionstorage cookie区别，
+深拷贝浅拷贝（手写），数组的方法（随口能说10个）http常见状态码，get/post区别，性能优化，ajax原理，axios的拦截器，跨域，继承，原型，闭包，
+
+vue: 指令，mvvm模式，常见的配置像，vuex,router(本质是映射关系),双向数据绑定（Object.defineproperty）,组件之间传参（父向字：v-on，子向父：事件，兄弟其他：eventbus），
+v-if和v-show的区别，封装组件的思路，生命周期，
+项目：周期，人数，职责，所用技术栈，人员情况（后台+ui+前端等）

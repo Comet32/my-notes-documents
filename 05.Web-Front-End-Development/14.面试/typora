@@ -1,2 +1,0 @@
-#!/bin/sh
-"C:\Program Files\Typora\Typora.exe" $1 &
